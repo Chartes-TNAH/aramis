@@ -11,7 +11,7 @@
         <p>Nous avons trouvé {{memoires.total}} mémoires qui correspondent à votre recherche :</p>
         <ul>
             {% for memoire in memoires.items %}
-                <li><a href="{{url_for('memoires', memoire_id=memoire.memoire_id)}}">{{memoire.memoire_titre}}, {{memoire.memoire_auteur}}, {{memoire.memoire_année}}</a></li>
+                <li><a href="{{url_for('memoire', memoire_id=memoire.memoire_id)}}">{{memoire.memoire_titre}}, {{memoire.memoire_auteur}}, {{memoire.memoire_annee}}</a></li>
             {% endfor %}
         </ul>
 

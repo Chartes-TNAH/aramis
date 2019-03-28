@@ -10,7 +10,7 @@
 
             <dt>Titre du mémoire : </dt><dd>{{memoire.memoire_titre}}</dd>
             
-            <dt>Année du diplôme : </dt><dd>{{memoire.memoire_année}}</dd>
+            <dt>Année du diplôme : </dt><dd>{{memoire.memoire_annee}}</dd>
             
             <dt>Institution : </dt><dd>{{memoire.memoire_institution}}</dd>
             
@@ -24,7 +24,7 @@
               {% if current_user.is_authenticated %}
               <dt><a class="nav-link" href="{{url_for('formulaire')}}">Ajouter un nouveau mémoire</a></dt>
 {%endif%}
-<dt><a class="nav-link" href="{{url_for('liste_memoire')}}">Voir les autres mémoires</a></dt>
+<dt><a class="nav-link" href="{{url_for('liste_memoires')}}">Voir les autres mémoires</a></dt>
 <dt><a class="nav-link" href="{{url_for('?')}}">Télécharger le mémoire</a></dt>
 
 
