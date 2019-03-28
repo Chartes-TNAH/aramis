@@ -15,7 +15,7 @@ class Utilisateur(db.Model):
     utilisateur_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     utilisateur_nom = db.Column(db.Text)
     utilisateur_email = db.Column(db.String)
-    utilisateur_mdp = db.Column(db.String)
+    utilisateur_motdepasse = db.Column(db.String)
     utilisateur_login = db.Column(db.String)
 
 # Table des memoires conservés dans la bd avec en clés étrangères l'auteur du mémoire et le tuteur du stage.
