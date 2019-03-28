@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<title>Plateforme mémoires</title>
+	{% include "partials/css.html" %}
+	{% include "partials/metadata.html" %}
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+		<a class="navbar-brand" href="{{ url_for('accueil') }}">Plateforme mémoires</a>
+		<ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('liste_memoires')}}">Liste des mémoires</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('formulaire')}}">Ajouter un nouveau mémoire</a>
+              </li>
+            {% if not current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('inscription')}}">Inscription</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('connexion')}}">Connexion</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('deconnexion')}}">Déconnexion ({{current_user.user_nom}})</a>
+              </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline" action="{{url_for('recherche')}}" method="GET">
+          <input class="form-control" name="keyword" type="search" placeholder="Recherche" aria-label="Rechercher">
+          <button class="btn btn-info" type="submit">Rechercher</button>
+        </form>
+	</nav>
+<div class="row">
+<div class="col">
+	{% block corps %}{% endblock %}
+</div>	
+</div>
+<footer>
+	<p>© 2019 - École nationale des Chartes</p>
+</footer>
+</body>
+</html>
