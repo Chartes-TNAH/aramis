@@ -1,7 +1,10 @@
 from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
+from sqlalchemy import or_, and_
 
-from ..app import app, login
+from .app import app, login
+from .constantes import MEMOIRE_PER_PAGE
+from .modeles.donnees import Utilisateur, Memoire, Keyword
 
 @app.route("/")
 def accueil():
@@ -77,7 +80,7 @@ def memoire(memoire_id):
     """
 
     #On va chercher un mémoire pour afficher sa page avec ses différentes informations
-    memoire_unique=memoire.query.get(memoire_id)
+    memoire_unique=Memoire.query.get(memoire_id)
     return render_template("pages/memoire.html", nom="PlateformeMemoire", memoire=memoire_unique)
 
 @app.route("/liste_des_memoires")
@@ -88,15 +91,41 @@ def liste_memoires():
     en les faisant apparaitre par ordre alphabétique des auteurs
     """
 
-    memoires = memoire.query.order_by(memoire.memoire_auteur.asc()).all()
+    memoires = Memoire.query.order_by(Memoire.memoire_auteur.asc()).all()
     return render_template("pages/liste_memoires.html", nom="PlateformeMemoire", memoires=memoires)
 
 @app.route("/recherche")
 def recherche():
     """ Route permettant d'afficher les résultats de la demande effectuée
-    dans la barre de recherche
+    dans la barre de recherche en les prenant dans les données des différentes tables
     :return : renvoie le nombre de résultats pour la recherche effectuée et les mémoires concernés
+    par le mot clé demandé
     """
+    motclef = request.args.get("keyword", None)
+    page = request.args.get("page", 1)
+
+    if isinstance(page, str) and page.isdigit():
+        page= int(page)
+    else:
+        page = 1
+
+    resultats = []
+
+    titre = "Recherche"
+    if motclef:
+        resultats = Memoire.query.filter(
+            or_
+                (
+            Memoire.memoire_titre.like("%{}%".format(motclef)),
+            Memoire.memoire_auteur.has((Utilisateur.utilisateur_nom).like("%{}%".format(motclef))),
+            Memoire.memoire_annee.like("%{}%".format(motclef)),
+            Memoire.memoire_tuteur.has((Utilisateur.utilisateur_nom).like("%{}%".format(motclef))),
+            Mmoire.memoire_institution.like("%{}%".format(motclef)),
+            )
+        ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
+        titre = "Résultats pour la recherche '" + motclef + "'."
+
+    return render_template("pages/recherche.html", titre=titre, resultats=resultats, keyword=motclef)
 
 
 @app.route("/formulaire", methods=["POST", "GET"])
@@ -106,5 +135,23 @@ def formulaire():
     Il est nécessaire d'être identifié pour ajouter un nouveau mémoire
 
     :return: renvoie à la page d'accueil si le mémoire a bien été rajouté,
-    sinon renvoie sur la page de formulaire car des informations manques.
+    sinon renvoie sur la page de formulaire car des informations manquent.
     """
+    if request.method == "POST":
+        statut, donnees = Memoire.creer_memoire(
+            titre=request.form.get("titre", None),
+            auteur=request.form.get("auteur", None),
+            annee=request.form.get("année", None),
+            institution=request.form.get("institution", None),
+            tuteur=request.form.get("tuteur", None),
+            motclef=request.form.get("motclef", None),
+            critnum=request.form.get("Critères_numériques", None),
+        )
+        if status is True:
+            flash("Vous avez ajouté vote mémoire", "success")
+            return redirect("/")
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            return render_template("pages/formulaire.html")
+    else:
+        return render_template("pages/formulaire.html")
