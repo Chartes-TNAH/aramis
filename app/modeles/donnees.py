@@ -35,7 +35,7 @@ class Keyword(db.Model):
     keyword_label = db.Column(db.String)
 
 # Table générée automatiquement par SQLite à partir du moment où une table contient une colonne
-# avec de l'autoincrémentation.
+# avec autoincrémentation (ici clés primaires).
 class Sqlite_sequence(db.Model):
     __tablename__ = "sqlite_sequence"
     name = db.Column(db.Text)
