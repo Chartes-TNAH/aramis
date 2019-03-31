@@ -18,7 +18,7 @@ class Utilisateur(db.Model):
     utilisateur_motdepasse = db.Column(db.String)
     utilisateur_login = db.Column(db.String)
 
-# Table des memoires conservés dans la bd avec en clés étrangères l'auteur du mémoire et le tuteur du stage.
+# Table des memoires conservés dans la db avec en clés étrangères l'auteur du mémoire et le tuteur du stage.
 class Memoire(db.Model):
     __tablename__ = "memoire"
     memoire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
@@ -27,6 +27,7 @@ class Memoire(db.Model):
     memoire_annee = db.Column(db.Integer)
     memoire_institution = db.Column(db.String)
     memoire_tuteur = db.Relationship("Utilisateur", back_populates="utilisateur_id")
+    keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("individuals"))
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
 class Keyword(db.Model):
