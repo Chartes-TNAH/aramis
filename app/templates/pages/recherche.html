@@ -2,10 +2,7 @@
 
 {% block corps %}
 
- <h1>Résultats de votre recherche</h1>
-    {% if message_erreur%}
-    <p id="error">"Vous n'avez entré aucun mot-clef !"</p>
-  {%endif%}
+ <h1>{{titre}}</h1>
     {% if mémoires %}
 
         <p>Nous avons trouvé {{memoires.total}} mémoires qui correspondent à votre recherche :</p>
