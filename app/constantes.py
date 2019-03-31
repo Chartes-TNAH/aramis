@@ -1,5 +1,7 @@
 from warnings import warn
 
+MEMOIRE_PER_PAGE = 5
+
 SECRET_KEY= "JE SUIS UN SECRET !"
 
 if SECRET_KEY == "JE SUIS UN SECRET !":
