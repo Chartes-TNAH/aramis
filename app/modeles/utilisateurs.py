@@ -13,21 +13,21 @@ class Utilisateur(UserMixin, db.Model):
     utilisateur_login = db.Column(db.String)
 
 
-@staticmethod
-def identification(login, motdepasse):
-    """ Identifie un utilisateur. Si cela fonctionne, retourne les données de l'utilisateur.
+    @staticmethod
+    def identification(login, motdepasse):
+        """ Identifie un utilisateur. Si cela fonctionne, retourne les données de l'utilisateur.
 
-    :param login: Login de l'utilisateur
-    :param motdepasse: Mot de passe envoyé par l'utilisateur
-    :returns: Si réussite, données de l'utilisateur. Sinon None
-    :rtype: User or None
-    """
-    user = Utilisateur.query.filter(Utilisateur.utilisateur_login == login).first()
-    if user and check_password_hash(Utilisateur.utilisateur_motdepasse, motdepasse):
-        return user
-    return None
+        :param login: Login de l'utilisateur
+        :param motdepasse: Mot de passe envoyé par l'utilisateur
+        :returns: Si réussite, données de l'utilisateur. Sinon None
+        :rtype: User or None
+        """
+        user = Utilisateur.query.filter(Utilisateur.utilisateur_login == login).first()
+        if user and check_password_hash(Utilisateur.utilisateur_motdepasse, motdepasse):
+            return user
+        return None
 
-@staticmethod
+    @staticmethod
     def creer(login, email, nom, motdepasse):
         """ Crée un compte utilisateur. Retourne un tuple (booléen, User ou liste).
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
@@ -80,13 +80,13 @@ def identification(login, motdepasse):
             return False, [str(erreur)]
 
 
-def get_id(self):
-    """ Retourne l'id de l'objet actuellement utilisé
+    def get_id(self):
+        """ Retourne l'id de l'objet actuellement utilisé
 
-    :returns: ID de l'utilisateur
-    :rtype: int
-    """
-    return self.utilisateur_id
+        :returns: ID de l'utilisateur
+        :rtype: int
+        """
+        return self.utilisateur_id
 
 @login.user_loader
 def trouver_utilisateur_via_id(id):
