@@ -32,6 +32,7 @@ class Keyword(db.Model):
 # avec autoincrémentation (ici clés primaires).
 class Sqlite_sequence(db.Model):
     __tablename__ = "sqlite_sequence"
+    sequence_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     name = db.Column(db.Text)
     seq = db.Column(db.Text)
 
