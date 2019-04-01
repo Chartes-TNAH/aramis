@@ -1,0 +1,55 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+<h1>Ajoutez un nouveau mémoire</h1>
+<p>Rentrez les informations relatives au mémoire.</p>
+<form class="form" method="POST" action="{{url_for('formulaire')}}">
+  <div class="form-group row">
+    <label for="memoire_titre" class="col-sm-2 col-form-label">Titre du mémoire</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_titre" name="titre" placeholder="Titre du mémoire">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="memoire_auteur" class="col-sm-2 col-form-label">Auteur du mémoire</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_auteur" placeholder="Auteur du mémoire" name="auteur">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="memoire_annee" class="col-sm-2 col-form-label">Année du diplôme</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_annee" placeholder="Année du diplôme" name="année">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="memoire_tuteur" class="col-sm-2 col-form-label">Tuteur référent du mémoire</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_tuteur" placeholder="Tuteur référent du mémoire" name="tuteur">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="memoire_institution" class="col-sm-2 col-form-label">Institution du stage</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_institution" placeholder="Institution du stage" name="lieu">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="memoire_keywords" class="col-sm-2 col-form-label">Mots-clé du mémoire</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_keywords" placeholder="Mots-clé du mémoire" name="keywords">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="memoire_numeric" class="col-sm-2 col-form-label">Critères numériques</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="memoire_numeric" placeholder="Critères numériques" name="keywords">
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+
+<h1>Liste des mémoires</h1>
+<div class="row">
+    <div class="col">
+        {% if memoires %}
+        <p>Vous trouverez ici la liste de tous les mémoires présents sur la plateforme. Vous pouvez cliquer sur un item de la liste pour aller voir un mémoire en particulier et obtenir plus d'informations et de données, et notamment la possibilité de le télécharger.</p>
+        <ul>
+            {% for memoire in memoires %}
+                <li><a href="{{url_for('memoire', memoire_id=Memoire.memoire_id)}}">{{Memoire.memoire_titre}}, {{Memoire.memoire_auteur}}, {{Memoire.memoire_annee}}</a></li>
+            {% endfor %}
+        </ul>
+
+</div>
+    {% else %}
+    <p>La base de données est en cours de constitution</p>
+    {%endif%}
+{% endblock %}

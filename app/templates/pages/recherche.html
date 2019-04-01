@@ -1,0 +1,41 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+ <h1>{{titre}}</h1>
+    {% if resultats %}
+
+        <p>Nous avons trouvé {{resultats.total}} mémoires qui correspondent à votre recherche :</p>
+        <ul>
+            {% for memoire in resultats.items %}
+                <li><a href="{{url_for('memoire', memoire_id=Memoire.memoire_id)}}">{{Memoire.memoire_titre}}, {{Memoire.memoire_auteur}}, {{Memoire.memoire_annee}}</a></li>
+            {% endfor %}
+        </ul>
+
+    <nav aria-label="research-pagination">
+      <ul class="pagination">
+        {%- for page in resultats.iter_pages() %}
+            {% if page %}
+
+              {% if page != resultats.page %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('recherche', keyword=motclef, page=page) }}">{{page}}</a>
+                </li>
+              {% else %}
+                <li class="page-item active disabled">
+                  <a class="page-link">{{page}} <span class="sr-only">(actuelle)</span></a>
+                </li>
+              {% endif %}
+
+            {% else %}
+                <li class="page-item disabled">
+                  <a class="page-link">...</a>
+                </li>
+            {% endif %}
+
+        {%- endfor %}
+      </ul>
+    </nav>
+    {% endif %}
+
+{% endblock %}
