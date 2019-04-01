@@ -27,7 +27,7 @@ class Memoire(db.Model):
     memoire_annee = db.Column(db.Integer)
     memoire_institution = db.Column(db.String)
     memoire_tuteur = db.Relationship("Utilisateur", back_populates="utilisateur_id")
-    keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("individuals"))
+    keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
 class Keyword(db.Model):
