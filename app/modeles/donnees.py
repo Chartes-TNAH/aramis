@@ -15,12 +15,12 @@ class Memoire(db.Model):
     memoire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     memoire_titre = db.Column(db.String)
     memoire_auteur = db.Column(db.Integer, db.ForeignKey('utilisateur_id'))
-    auteur = db.Relationship("Utilisateur", back_populates="memoire")
+    auteur = db.relationship("Utilisateur", back_populates="memoire")
     memoire_annee = db.Column(db.Integer)
     memoire_institution = db.Column(db.String)
     memoire_tuteur = db.Column(db.Integer, db.ForeignKey('utilisateur_id'))
-    tuteur = db.Relationship("Utilisateur", back_populates="memoire")
-    keyword = db.Relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
+    tuteur = db.relationship("Utilisateur", back_populates="memoire")
+    keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
 class Keyword(db.Model):
