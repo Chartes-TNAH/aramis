@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from .. app import db, login
 
 
-class Utilisateur(db.Model):
+class Utilisateur(UserMixin, db.Model):
     __tablename__ = "utilisateur"
     utilisateur_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     utilisateur_nom = db.Column(db.Text)
@@ -78,3 +78,16 @@ def identification(login, motdepasse):
             return True, user
         except Exception as erreur:
             return False, [str(erreur)]
+
+
+def get_id(self):
+    """ Retourne l'id de l'objet actuellement utilisé
+
+    :returns: ID de l'utilisateur
+    :rtype: int
+    """
+    return self.utilisateur_id
+
+@login.user_loader
+def trouver_utilisateur_via_id(id):
+    return Utilisateur.query.get(int(id))
