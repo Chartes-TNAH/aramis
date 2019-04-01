@@ -1,10 +1,11 @@
 from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 
 from .app import app, login
 from .constantes import MEMOIRE_PER_PAGE
-from .modeles.donnees import Utilisateur, Memoire, Keyword
+from .modeles.utilisateurs import Utilisateur
+from .modeles.donnees import Memoire, Keyword
 
 @app.route("/")
 def accueil():
@@ -22,7 +23,7 @@ def inscription():
     """
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        statut, donnees = User.creer(
+        statut, donnees = Utilisateur.creer(
             login=request.form.get("login", None),
             email=request.form.get("email", None),
             nom=request.form.get("nom", None),
@@ -50,7 +51,7 @@ def connexion():
         return redirect("/")
     # Si on est en POST, cela veut dire que le formulaire a été envoyé
     if request.method == "POST":
-        utilisateur = User.identification(
+        utilisateur = Utilisateur.identification(
             login=request.form.get("login", None),
             motdepasse=request.form.get("motdepasse", None)
         )
@@ -120,7 +121,8 @@ def recherche():
             Memoire.memoire_auteur.has((Utilisateur.utilisateur_nom).like("%{}%".format(motclef))),
             Memoire.memoire_annee.like("%{}%".format(motclef)),
             Memoire.memoire_tuteur.has((Utilisateur.utilisateur_nom).like("%{}%".format(motclef))),
-            Mmoire.memoire_institution.like("%{}%".format(motclef)),
+            Memoire.memoire_institution.like("%{}%".format(motclef)),
+            Memoire.keyword.any((Keyword.keyword_label).like("%{}%".format(motclef))),
             )
         ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche '" + motclef + "'."
