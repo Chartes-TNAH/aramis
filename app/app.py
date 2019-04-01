@@ -13,7 +13,7 @@ statics = os.path.join(chemin_actuel, "static")
 # les informations nécessaires pour que le site apparaisse correctement.
 
 
-app = Flask(__name__, template_folder=templates, static_folder=static)
+app = Flask(__name__, template_folder=templates, static_folder=statics)
 
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///.db/plateformememoires.sqlite'
@@ -24,7 +24,7 @@ db = SQLAlchemy(app)
 login = LoginManager(app)
 #Gestion d'utilisateur-rice-s
 
-from .routes import accueil, inscription, connexion, deconnexion, memoire, liste_memoires, recherche, formulaire
+from . import routes
 
 def config_app(config_name="test"):
     """ Create the application """

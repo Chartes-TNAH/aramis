@@ -18,6 +18,6 @@ class _PRODUCTION:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CONFIG = {
-    "test": _TEST
+    "test": _TEST,
     "production": _PRODUCTION
 }
