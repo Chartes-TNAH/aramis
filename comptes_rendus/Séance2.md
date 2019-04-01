@@ -1,4 +1,4 @@
-Séance 2 :
+# Séance 2
 
 •	Créer le modèle conceptuel de la base de données
 
