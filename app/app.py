@@ -17,6 +17,7 @@ app = Flask(__name__, template_folder=templates, static_folder=statics)
 
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///.db/plateformememoires.sqlite'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 #Initiation de l'objet SQLAlchemy avec l'app comme variable et stockage de la base de données dans db
