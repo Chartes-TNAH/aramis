@@ -1,4 +1,4 @@
-Séance 1 :
+# Séance 1
 
 •	Réflexion sur le projet
 

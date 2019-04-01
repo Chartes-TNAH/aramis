@@ -1,4 +1,4 @@
-Séance 3 :
+# Séance 3
 
 •	Définir les routes pour faire fonctionner le site
 

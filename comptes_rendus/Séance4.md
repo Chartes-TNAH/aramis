@@ -1,4 +1,4 @@
-Séance 4 :
+# Séance 4
 
 •	Réalisation des routes pour le site
 
