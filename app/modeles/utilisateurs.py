@@ -3,7 +3,7 @@ from flask_login import UserMixin
 
 from .. app import db, login
 
-
+# Table des utilisateurs (étudiants, anciens étudiants, professeurs du master)
 class Utilisateur(UserMixin, db.Model):
     __tablename__ = "utilisateur"
     utilisateur_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)

@@ -9,25 +9,18 @@ a_keyword = db.Table("a_keyword",
 # Table d'assocation n-à-n, nécessaire à la mise en relation des tables keyword et memoire afin d'assigner des
 # mots-clés aux mémoires.
 
-# Table des utilisateurs (étudiants, anciens étudiants, professeurs du master)
-class Utilisateur(db.Model):
-    __tablename__ = "utilisateur"
-    utilisateur_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
-    utilisateur_nom = db.Column(db.Text)
-    utilisateur_email = db.Column(db.String)
-    utilisateur_motdepasse = db.Column(db.String)
-    utilisateur_login = db.Column(db.String)
-
 # Table des memoires conservés dans la db avec en clés étrangères l'auteur du mémoire et le tuteur du stage.
 class Memoire(db.Model):
     __tablename__ = "memoire"
     memoire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     memoire_titre = db.Column(db.String)
-    memoire_auteur = db.Relationship("Utilisateur", back_populates="utilisateur_id")
+    memoire_auteur = db.Column(db.Integer, db.ForeignKey('utilisateur_id'))
+    auteur = db.Relationship("utilisateur", back_populates="memoire")
     memoire_annee = db.Column(db.Integer)
     memoire_institution = db.Column(db.String)
-    memoire_tuteur = db.Relationship("Utilisateur", back_populates="utilisateur_id")
-    keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
+    memoire_tuteur = db.Column(db.Integer, db.ForeignKey('utilisateur_id'))
+    tuteur = db.Relationship("utilisateur", back_populates="memoire")
+    keyword = db.Relationship("keyword", secondary=a_keyword, backref=db.backref("memoire"))
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
 class Keyword(db.Model):
