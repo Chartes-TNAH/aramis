@@ -1,12 +1,12 @@
 from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
-from sqlalchemy import or_, and_
+from sqlalchemy import or_
 from sqlalchemy.orm import aliased
 
 from .app import app, login
 from .constantes import MEMOIRE_PER_PAGE
 from .modeles.utilisateurs import Utilisateur
-from .modeles.donnees import Memoire, Keyword
+from .modeles.donnees import Memoire, Keyword, Agent
 
 @app.route("/")
 def accueil():
@@ -107,7 +107,7 @@ def recherche():
     page = request.args.get("page", 1)
 
     if isinstance(page, str) and page.isdigit():
-        page= int(page)
+        page = int(page)
     else:
         page = 1
 
@@ -116,18 +116,18 @@ def recherche():
     titre = "Recherche"
     if motclef:
         # https://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query.join
-        auteur = aliased(Utilisateur)
-        tuteur = aliased(Utilisateur)
+        auteur = aliased(Agent)
+        tuteur = aliased(Agent)
         resultats = Memoire.query\
-            .join(auteur, auteur.utilisateur_id == Memoire.memoire_auteur) \
-            .join(tuteur, tuteur.utilisateur_id == Memoire.memoire_tuteur).filter(
+            .join(auteur, auteur.agent_id == Memoire.memoire_auteur) \
+            .join(tuteur, tuteur.agent_id == Memoire.memoire_tuteur).filter(
                 or_(
                     Memoire.memoire_titre.like("%{}%".format(motclef)),
                     Memoire.memoire_annee.like("%{}%".format(motclef)),
                     Memoire.memoire_institution.like("%{}%".format(motclef)),
                     Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(motclef)),
-                    tuteur.utilisateur_nom.like("%{}%".format(motclef)),
-                    auteur.utilisateur_nom.like("%{}%".format(motclef))
+                    tuteur.agent_nom.like("%{}%".format(motclef)),
+                    auteur.agent_nom.like("%{}%".format(motclef))
                 )
             ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche '" + motclef + "'."

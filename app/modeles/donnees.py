@@ -17,14 +17,14 @@ class Memoire(db.Model):
     __tablename__ = "memoire"
     memoire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     memoire_titre = db.Column(db.String)
-    memoire_auteur = db.Column(db.Integer, db.ForeignKey('utilisateur.utilisateur_id'))
+    memoire_auteur = db.Column(db.Integer, db.ForeignKey('agent.agent_id'))
     memoire_annee = db.Column(db.Integer)
     memoire_institution = db.Column(db.String)
-    memoire_tuteur = db.Column(db.Integer, db.ForeignKey('utilisateur.utilisateur_id'))
+    memoire_tuteur = db.Column(db.Integer, db.ForeignKey('agent.agent_id'))
 
-    tuteur = db.relationship("Utilisateur", foreign_keys=[memoire_tuteur])
+    tuteur = db.relationship("Agent", foreign_keys=[memoire_tuteur])
     keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
-    auteur = db.relationship("Utilisateur", foreign_keys=[memoire_auteur])
+    auteur = db.relationship("Agent", foreign_keys=[memoire_auteur])
 
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
@@ -32,3 +32,9 @@ class Keyword(db.Model):
     __tablename__ = "keyword"
     keyword_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     keyword_label = db.Column(db.String)
+
+
+class Agent(db.Model):
+    __tablename__ = "agent"
+    agent_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    agent_nom = db.Column(db.String, nullable=False, unique=True)
