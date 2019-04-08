@@ -1,6 +1,7 @@
 from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
-from sqlalchemy import or_
+from sqlalchemy import or_, and_
+from sqlalchemy.orm import aliased
 
 from .app import app, login
 from .constantes import MEMOIRE_PER_PAGE
@@ -114,17 +115,21 @@ def recherche():
 
     titre = "Recherche"
     if motclef:
-        resultats = Memoire.query.filter(
-            or_
-                (
-            Memoire.memoire_titre.like("%{}%".format(motclef)),
-            Memoire.memoire_auteur.has((Utilisateur.utilisateur_nom).like("%{}%".format(motclef))),
-            Memoire.memoire_annee.like("%{}%".format(motclef)),
-            Memoire.memoire_tuteur.has((Utilisateur.utilisateur_nom).like("%{}%".format(motclef))),
-            Memoire.memoire_institution.like("%{}%".format(motclef)),
-            Memoire.keyword.any((Keyword.keyword_label).like("%{}%".format(motclef))),
-            )
-        ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
+        # https://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query.join
+        auteur = aliased(Utilisateur)
+        tuteur = aliased(Utilisateur)
+        resultats = Memoire.query\
+            .join(auteur, auteur.utilisateur_id == Memoire.memoire_auteur) \
+            .join(tuteur, tuteur.utilisateur_id == Memoire.memoire_tuteur).filter(
+                or_(
+                    Memoire.memoire_titre.like("%{}%".format(motclef)),
+                    Memoire.memoire_annee.like("%{}%".format(motclef)),
+                    Memoire.memoire_institution.like("%{}%".format(motclef)),
+                    Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(motclef)),
+                    tuteur.utilisateur_nom.like("%{}%".format(motclef)),
+                    auteur.utilisateur_nom.like("%{}%".format(motclef))
+                )
+            ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche '" + motclef + "'."
 
     return render_template("pages/recherche.html", titre=titre, resultats=resultats, keyword=motclef)
@@ -149,7 +154,7 @@ def formulaire():
             motclef=request.form.get("motclef", None),
             critnum=request.form.get("Critères_numériques", None),
         )
-        if status is True:
+        if statut is True:
             flash("Vous avez ajouté vote mémoire", "success")
             return redirect("/")
         else:
