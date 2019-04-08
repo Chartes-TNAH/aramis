@@ -22,9 +22,9 @@ class Memoire(db.Model):
     memoire_institution = db.Column(db.String)
     memoire_tuteur = db.Column(db.Integer, db.ForeignKey('utilisateur.utilisateur_id'))
 
-    tuteur = db.relationship("Utilisateur", foreign_keys=[memoire_auteur])
+    tuteur = db.relationship("Utilisateur", foreign_keys=[memoire_tuteur])
     keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
-    auteur = db.relationship("Utilisateur", foreign_keys=[memoire_tuteur])
+    auteur = db.relationship("Utilisateur", foreign_keys=[memoire_auteur])
 
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
