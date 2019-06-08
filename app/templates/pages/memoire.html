@@ -3,29 +3,29 @@
 {% block corps %}
 {% if memoire %}
 
-<h1>{{Memoire.memoire_titre}}</h1>
+<h1>{{memoire.memoire_titre}}</h1>
 <!-- Faire en sorte de changer les noms une fois que la base de données est mise en place-->
         <dl>
-            <dt>Nom et prénom de l'étudiant : </dt><dd>{{Memoire.memoire_auteur}}</dd>
+            <dt>Nom et prénom de l'étudiant : </dt><dd>{{memoire.auteur.agent_nom}}</dd>
 
-            <dt>Titre du mémoire : </dt><dd>{{Memoire.memoire_titre}}</dd>
+            <dt>Titre du mémoire : </dt><dd>{{memoire.memoire_titre}}</dd>
             
-            <dt>Année du diplôme : </dt><dd>{{Memoire.memoire_annee}}</dd>
+            <dt>Année du diplôme : </dt><dd>{{memoire.memoire_annee}}</dd>
             
-            <dt>Institution : </dt><dd>{{Memoire.memoire_institution}}</dd>
+            <dt>Institution : </dt><dd>{{memoire.memoire_institution}}</dd>
             
-            <dt>Professeur référent : </dt><dd>{{Memoire.memoire_tuteur}}</dd>
+            <dt>Professeur référent : </dt><dd>{{memoire.tuteur.agent_nom}}</dd>
             
-            <dt>Mots-clés du mémoire : </dt><dd>{{Memoire.keyword}}</dd>
+            <dt>Mots-clés du mémoire : </dt><dd>{{memoire.keyword}}</dd>
             
-            <dt>Critères numériques : </dt><dd>{{Memoire.keyword}}</dd>
+            <dt>Critères numériques : </dt><dd>{{memoire.keyword}}</dd>
 
 <!-- Donner la possibilité de rajouter son mémoire pour l'étudiant authentifié-->
               {% if current_user.is_authenticated %}
               <dt><a class="nav-link" href="{{url_for('formulaire')}}">Ajouter un nouveau mémoire</a></dt>
 {%endif%}
 <dt><a class="nav-link" href="{{url_for('liste_memoires')}}">Voir les autres mémoires</a></dt>
-<dt><a class="nav-link" href="{{url_for('?')}}">Télécharger le mémoire</a></dt>
+<dt><a class="nav-link" href="">Télécharger le mémoire</a></dt>
 
 
         </dl>

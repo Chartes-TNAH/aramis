@@ -3,6 +3,7 @@ from flask_login import UserMixin
 
 from .. app import db, login
 
+
 # Table des utilisateurs (étudiants, anciens étudiants, professeurs du master)
 class Utilisateur(UserMixin, db.Model):
     __tablename__ = "utilisateur"
@@ -11,7 +12,6 @@ class Utilisateur(UserMixin, db.Model):
     utilisateur_email = db.Column(db.String)
     utilisateur_motdepasse = db.Column(db.String)
     utilisateur_login = db.Column(db.String)
-
 
     @staticmethod
     def identification(login, motdepasse):
@@ -23,7 +23,7 @@ class Utilisateur(UserMixin, db.Model):
         :rtype: User or None
         """
         user = Utilisateur.query.filter(Utilisateur.utilisateur_login == login).first()
-        if user and check_password_hash(Utilisateur.utilisateur_motdepasse, motdepasse):
+        if user and check_password_hash(user.utilisateur_motdepasse, motdepasse):
             return user
         return None
 
@@ -79,7 +79,6 @@ class Utilisateur(UserMixin, db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
-
     def get_id(self):
         """ Retourne l'id de l'objet actuellement utilisé
 
@@ -87,6 +86,7 @@ class Utilisateur(UserMixin, db.Model):
         :rtype: int
         """
         return self.utilisateur_id
+
 
 @login.user_loader
 def trouver_utilisateur_via_id(id):

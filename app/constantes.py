@@ -14,7 +14,7 @@ class _TEST:
 
 class _PRODUCTION:
     SECRET_KEY = SECRET_KEY
-    SQLALCHEMY_DATABASE_URI = 'sqlite: // /.db/plateformememoires.sqlite'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///../db/plateformememoires.sqlite'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 CONFIG = {

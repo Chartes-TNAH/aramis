@@ -3,24 +3,29 @@
 from ..app import db
 # import de la base de données sqlite
 
-a_keyword = db.Table("a_keyword",
+a_keyword = db.Table(
+    "a_keyword",
     db.Column("Keyword", db.Integer, db.ForeignKey("keyword.keyword_id"), primary_key=True),
-    db.Column("Memoire", db.Integer, db.ForeignKey("memoire.memoire_id"), primary_key=True))
+    db.Column("Memoire", db.Integer, db.ForeignKey("memoire.memoire_id"), primary_key=True)
+)
 # Table d'assocation n-à-n, nécessaire à la mise en relation des tables keyword et memoire afin d'assigner des
 # mots-clés aux mémoires.
+
 
 # Table des memoires conservés dans la db avec en clés étrangères l'auteur du mémoire et le tuteur du stage.
 class Memoire(db.Model):
     __tablename__ = "memoire"
     memoire_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     memoire_titre = db.Column(db.String)
-    memoire_auteur = db.Column(db.Integer, db.ForeignKey('utilisateur_id'))
-    auteur = db.relationship("Utilisateur", back_populates="memoire")
+    memoire_auteur = db.Column(db.Integer, db.ForeignKey('agent.agent_id'))
     memoire_annee = db.Column(db.Integer)
     memoire_institution = db.Column(db.String)
-    memoire_tuteur = db.Column(db.Integer, db.ForeignKey('utilisateur_id'))
-    tuteur = db.relationship("Utilisateur", back_populates="memoire")
+    memoire_tuteur = db.Column(db.Integer, db.ForeignKey('agent.agent_id'))
+
+    tuteur = db.relationship("Agent", foreign_keys=[memoire_tuteur])
     keyword = db.relationship("Keyword", secondary=a_keyword, backref=db.backref("memoire"))
+    auteur = db.relationship("Agent", foreign_keys=[memoire_auteur])
+
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
 class Keyword(db.Model):
@@ -28,13 +33,8 @@ class Keyword(db.Model):
     keyword_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
     keyword_label = db.Column(db.String)
 
-# Table générée automatiquement par SQLite à partir du moment où une table contient une colonne
-# avec autoincrémentation (ici clés primaires).
-class Sqlite_sequence(db.Model):
-    __tablename__ = "sqlite_sequence"
-    sequence_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True)
-    name = db.Column(db.Text)
-    seq = db.Column(db.Text)
 
-
-
+class Agent(db.Model):
+    __tablename__ = "agent"
+    agent_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    agent_nom = db.Column(db.String, nullable=False, unique=True)
