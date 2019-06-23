@@ -38,3 +38,9 @@ class Agent(db.Model):
     __tablename__ = "agent"
     agent_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     agent_nom = db.Column(db.String, nullable=False, unique=True)
+
+
+class Institution(db.Model):
+    __tablename__ = "institution"
+    institution_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
+    institution_nom = db.Column(db.String, nullable=False, unique=True)
