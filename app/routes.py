@@ -134,8 +134,39 @@ def recherche():
 
     return render_template("pages/recherche.html", titre=titre, resultats=resultats, keyword=motclef)
 
+@app.route("/motsclefs")
+def recherche():
+    """ Route permettant d'afficher les résultats de la demande en les prenant dans les données des différentes tables
+    :return : renvoie le nombre de résultats pour la recherche effectuée et les mémoires concernés
+    pour tous les mots-clefs
+    """
+    motclef = request.args.get("argument", None)
+    page = request.args.get("page", 1)
 
-@app.route("/formulaire", methods=["POST", "GET"])
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
+
+    resultats = []
+
+    titre = "Recherche mots-clefs"
+    if motclef:
+        # https://docs.sqlalchemy.org/en/latest/orm/query.html#sqlalchemy.orm.query.Query.join
+        auteur = aliased(Agent)
+        tuteur = aliased(Agent)
+        resultats = Memoire.query\
+            .join(auteur, auteur.agent_id == Memoire.memoire_auteur) \
+            .join(tuteur, tuteur.agent_id == Memoire.memoire_tuteur).filter(
+                    Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(Motclef.keyword_label))
+                )
+            ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
+        titre = "Résultats pour la recherche mots-clefs '" + motclef + "'."
+
+    return render_template("pages/recherchemotsclefs.html", titre=titre, resultats=resultats, keyword=motclef)
+
+
+  @app.route("/formulaire", methods=["POST", "GET"])
 @login_required
 def formulaire():
     """ Route permettant d'entrer un nouveau mémoire dans la base de données.
