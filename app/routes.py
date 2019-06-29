@@ -163,7 +163,7 @@ def recherche():
             ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche mots-clefs '" + motclef + "'."
 
-    return render_template("pages/recherchemotsclefs.html", titre=titre, resultats=resultats, keyword=motclef)
+    return render_template("pages/recherche_motscles.html", titre=titre, resultats=resultats, keyword=motclef)
 
 
   @app.route("/formulaire", methods=["POST", "GET"])
