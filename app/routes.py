@@ -159,7 +159,6 @@ def recherche_motscles():
             .join(auteur, auteur.agent_id == Memoire.memoire_auteur) \
             .join(tuteur, tuteur.agent_id == Memoire.memoire_tuteur).filter(
                     Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(Motclef.keyword_label))
-                )
             ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche mots-clefs '" + motclef + "'."
 
