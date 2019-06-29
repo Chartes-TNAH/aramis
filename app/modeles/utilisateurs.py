@@ -66,7 +66,7 @@ class Utilisateur(UserMixin, db.Model):
             utilisateur_login=login,
             utilisateur_email=email,
             utilisateur_motdepasse=generate_password_hash(motdepasse)
-            )
+        )
 
         try:
             # On l'ajoute au transport vers la base de données
