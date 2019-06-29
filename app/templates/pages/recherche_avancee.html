@@ -1,0 +1,74 @@
+{% extends "conteneur.html" %}
+
+{% block corps %}
+
+ <h1>Recherche avancée</h1>
+ <p>Vous avez ici la possibilité de rechercher le mémoire que vous voulez en prenant en compte plusieurs critères de recherche</p>
+<form class="form" method="GET" action="{{url_for('resultats_avancees')}}">
+<!-- Recherche avancée en séléctionnant les éléments partiucliers voulus à l'aide de choix à disposition -->
+ <div class="form-group">
+ 	<label>Étudiant</label>
+ 	<select class="form-control" name="auteur">
+ 		<option value="all">Sélectionner un étudiant</option>
+ {% for auteur in auteurs %}
+ 		<option value="{{auteur.agent_nom}}">{auteur.agent_nom}</option>
+ 		{% endfor %}
+ 	</select>
+ </div>
+
+  <div class="form-group">
+ 	<label>Tuteur</label>
+ 	<select class="form-control" name="tuteur">
+ 		<option value="all">Sélectionner un tuteur</option>
+ 		{% for tuteur in tuteurs %}
+ 		<option value="{{tuteur.agent_nom}}">{tuteur.agent_nom}</option>
+ 		{% endfor %}
+ 	</select>
+ </div>
+
+ <div class="form-group">
+ 	<label>Institution</label>
+ 	<select class="form-control" name="institution">
+ 		<option value="all">Sélectionner une institution</option>
+ 		{% for institution in institutions %}
+ 		<option value="{{institution.institution_nom}}">{institution.institution_nom}</option>
+ 		{% endfor %}
+ 	</select>
+ </div>
+
+  <div class="form-group">
+ 	<label>Mots-clés</label>
+ 	<select class="form-control" name="keyword">
+ 		<option value="all">Sélectionner un mot-clé</option>
+ 		{% for keyword in keywords %}
+ 		<option value="{{keyword.keyword_label}}">{keyword.keyword_label}</option>
+ 		{% endfor %}
+ 	</select>
+ </div>
+
+ <div class="form-group">
+ 	<label>Année du mémoire</label>
+ 	<select class="form-control" name="annee">
+ 		<option value="all">Sélectionner l'année de parution de mémoire</option>
+ 		<option value="2006">2006</option>
+ 		<option value="2007">2007</option>
+ 		<option value="2008">2008</option>
+ 		<option value="2009">2009</option>
+ 		<option value="2010">2010</option>
+ 		<option value="2011">2011</option>
+ 		<option value="2012">2012</option>
+ 		<option value="2013">2013</option>
+ 		<option value="2014">2014</option>
+ 		<option value="2015">2015</option>
+ 		<option value="2016">2016</option>
+ 		<option value="2017">2017</option>
+ 		<option value="2018">2018</option>
+ 		<option value="2019">2019</option>
+ 	</select>
+ </div>
+ <div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+  </div>
+</form>
+
+ {% endblock %}
