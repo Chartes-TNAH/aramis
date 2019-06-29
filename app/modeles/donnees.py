@@ -48,15 +48,15 @@ class Institution(db.Model):
 
     @staticmethod
     def add_institution(institution):
-        '''
+        """
         Fonction qui permet d'ajouter une institution dans la base de données
         :param institution: nom de l'institution à ajouter
         :return: la nouvelle institution dans la base
-        '''
+        """
 
         erreur = []
         if not institution:
-            erreur.append("Cette instution n'existe pas")
+            erreur.append("Cette institution n'existe pas")
 
         all_institution = Institution.query.with_entities(Institution.institution_nom)
         all_institution = [tlbl(0) for tlbl in all_institution.all()]
@@ -68,9 +68,7 @@ class Institution(db.Model):
                 db.session.commit()
             else:
                 institution = Institution.query.filter(Institution.institution_nom == institution).first()
-
         try:
             return institution
         except Exception as erreur:
             return False, [str(erreur)]
-
