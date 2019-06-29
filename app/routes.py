@@ -135,7 +135,7 @@ def recherche():
     return render_template("pages/recherche.html", titre=titre, resultats=resultats, keyword=motclef)
 
 @app.route("/motsclefs")
-def recherche():
+def recherche_motscles():
     """ Route permettant d'afficher les résultats de la demande en les prenant dans les données des différentes tables
     :return : renvoie le nombre de résultats pour la recherche effectuée et les mémoires concernés
     pour tous les mots-clefs
