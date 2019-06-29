@@ -3,8 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from sqlalchemy.orm import aliased
 
-from .app import app
-from .app import login
+from .app import app, login
 from .constantes import MEMOIRE_PER_PAGE
 from .modeles.utilisateurs import Utilisateur
 from .modeles.donnees import Memoire, Keyword, Agent, Institution
@@ -128,18 +127,19 @@ def recherche():
         resultats = Memoire.query \
             .join(auteur, auteur.agent_id == Memoire.memoire_auteur) \
             .join(tuteur, tuteur.agent_id == Memoire.memoire_tuteur).filter(
-            or_(
-                Memoire.memoire_titre.like("%{}%".format(motclef)),
-                Memoire.memoire_annee.like("%{}%".format(motclef)),
-                Memoire.memoire_institution.like("%{}%".format(motclef)),
-                Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(motclef)),
-                tuteur.agent_nom.like("%{}%".format(motclef)),
-                auteur.agent_nom.like("%{}%".format(motclef))
-            )
-        ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
+                or_(
+                    Memoire.memoire_titre.like("%{}%".format(motclef)),
+                    Memoire.memoire_annee.like("%{}%".format(motclef)),
+                    Memoire.memoire_institution.like("%{}%".format(motclef)),
+                    Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(motclef)),
+                    tuteur.agent_nom.like("%{}%".format(motclef)),
+                    auteur.agent_nom.like("%{}%".format(motclef))
+                )
+            ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche '" + motclef + "'."
 
     return render_template("pages/recherche.html", titre=titre, resultats=resultats, keyword=motclef)
+
 
 @app.route("/motsclefs")
 def recherche_motscles():
@@ -195,33 +195,32 @@ def resultats_avancees():
 
     page = request.args.get("page", 1)
 
-
     if isinstance(page, str) and page.isdigit():
         page = int(page)
     else:
         page = 1
 
-    recherche = Memoire.query
+    requete = Memoire.query
 
-    if auteurs and auteurs != "all":
-        recherche = recherche.filter(Memoire.memoire_auteur.has(Agent.agent_nom == auteurs))
-    if tuteurs and tuteurs != "all":
-        recherche = recherche.filter(Memoire.memoire_tuteur.has(Agent.agent_nom == tuteurs))
-    if institutions and instituions != "all":
-        recherche = recherche.filter(Memoire.memoire_institution.has(Institution.institution_nom == institutions))
-    if keywords and keywords != "all":
-        recherche = recherche.filter(Memoire.keyword.has(Keyword.keyword_label == keywords))
+    if auteur and auteur != "all":
+        requete = requete.filter(Memoire.memoire_auteur.has(Agent.agent_nom == auteur))
+    if tuteur and tuteur != "all":
+        requete = requete.filter(Memoire.memoire_tuteur.has(Agent.agent_nom == tuteur))
+    if institution and institution != "all":
+        requete = requete.filter(Memoire.memoire_institution.has(Institution.institution_nom == institution))
+    if keyword and keyword != "all":
+        requete = requete.filter(Memoire.keyword.has(Keyword.keyword_label == keyword))
     if annee and annee != "all":
-        recherche = recherche.filter(Memoire.memoire_annee == annee)
+        requete = requete.filter(Memoire.memoire_annee == annee)
 
-    recherche = recherche.paginate(page=page, per_page=MEMOIRE_PER_PAGE)
+    requete = requete.paginate(page=page, per_page=MEMOIRE_PER_PAGE)
     titre = "Résultats pour votre recherche"
-    return render_template("pages/resultats_avancees", titre=titre, recherche=recherche, auteur=auteur,
+    return render_template("pages/resultats_avancees", titre=titre, requete=requete, auteur=auteur,
                            tuteur=tuteur, institution=institution, keyword=keyword, annee=annee)
 
 
 @app.route("/formulaire", methods=["POST", "GET"])
-# @login_required
+@login_required
 def formulaire():
     """ Route permettant d'entrer un nouveau mémoire dans la base de données.
     Il est nécessaire d'être identifié pour ajouter un nouveau mémoire
