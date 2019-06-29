@@ -189,10 +189,10 @@ def resultats_avancees():
     page = request.args.get("page", 1)
 
 
-if isinstance(page, str) and page.isdigit():
-    page = int(page)
-else:
-    page = 1
+    if isinstance(page, str) and page.isdigit():
+        page = int(page)
+    else:
+        page = 1
 
     recherche = Memoire.query
 
