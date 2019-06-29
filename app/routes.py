@@ -165,6 +165,54 @@ def recherche_motscles():
     return render_template("pages/recherche_motscles.html", titre=titre, resultats=resultats, keyword=motclef)
 
 
+@app.route('/recherche_avancee')
+def recherche_avancee():
+    """ Formulaire de recherche avancée """
+    auteurs = Agent.query.order_by(agent.agent_nom).all()
+    tuteurs = Agent.query.order_by(agent.agent_nom).all()
+    institutions = Institution.query.order_by(institution.institution_nom).all()
+    keywords = Keyword.query.order_by(keyword.keyword_label).all()
+    return render_template("pages/recherche_avancee.html", auteurs=auteurs, tuteurs=tuteurs, institutions=institutions,
+                           keywords=keywords)
+
+
+@app.route('/resultats_avancees')
+def resultats_avancees():
+    """ Fonction qui permet de faire apparaitre les résultats d'une recherche avec de multiples critères"""
+
+    auteur = request.args.get("auteur", None)
+    tuteur = request.args.get("tuteur", None)
+    institution = request.args.get("institution", None)
+    keyword = request.args.get("keyword", None)
+    annee = request.args.get("annee", None)
+
+    page = request.args.get("page", 1)
+
+
+if isinstance(page, str) and page.isdigit():
+    page = int(page)
+else:
+    page = 1
+
+    recherche = Memoire.query
+
+    if auteurs and auteurs != "all":
+        recherche = recherche.filter(Memoire.memoire_auteur.has(Agent.agent_nom == auteurs))
+    if tuteurs and tuteurs != "all":
+        recherche = recherche.filter(Memoire.memoire_tuteur.has(Agent.agent_nom == tuteurs))
+    if institutions and instituions != "all":
+        recherche = recherche.filter(Memoire.memoire_institution.has(Institution.institution_nom == institutions))
+    if keywords and keywords != "all":
+        recherche = recherche.filter(Memoire.keyword.has(Keyword.keyword_label == keywords))
+    if annee and annee != "all":
+        recherche = recherche.filter(Memoire.memoire_annee == annee)
+
+    recherche = recherche.paginate(page=page, per_page=MEMOIRE_PER_PAGE)
+    titre = "Résultats pour votre recherche"
+    return render_template("pages/resultats_avancees", titre=titre, recherche=recherche, auteurs=auteurs,
+                           tuteurs=tuteurs, institutions=institutions, keywords=keywords, annee=annee)
+
+
 @app.route("/formulaire", methods=["POST", "GET"])
 @login_required
 def formulaire():
