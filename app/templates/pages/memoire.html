@@ -16,7 +16,20 @@
             
             <dt>Professeur référent : </dt><dd>{{memoire.tuteur.agent_nom}}</dd>
             
-            <dt>Mots-clés du mémoire : </dt><dd>{{memoire.keyword}}</dd>
+            <dt>Mots-clés du mémoire : </dt>
+
+            <dd>{{memoire.keyword}}
+
+                 {% for keyword in memoire.keyword %}
+
+               <li>
+            <a href="{{url_for('motsclefs', argument=keyword)}}">
+
+                   {{keyword.keyword_label}}
+            </a>
+ </li>
+                {% endblock %}
+            </dd>
             
             <dt>Critères numériques : </dt><dd>{{memoire.keyword}}</dd>
 
