@@ -209,8 +209,8 @@ def resultats_avancees():
 
     recherche = recherche.paginate(page=page, per_page=MEMOIRE_PER_PAGE)
     titre = "Résultats pour votre recherche"
-    return render_template("pages/resultats_avancees", titre=titre, recherche=recherche, auteurs=auteurs,
-                           tuteurs=tuteurs, institutions=institutions, keywords=keywords, annee=annee)
+    return render_template("pages/resultats_avancees", titre=titre, recherche=recherche, auteur=auteur,
+                           tuteur=tuteur, institution=institution, keyword=keyword, annee=annee)
 
 
 @app.route("/formulaire", methods=["POST", "GET"])
