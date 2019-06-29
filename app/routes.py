@@ -168,10 +168,10 @@ def recherche_motscles():
 @app.route('/recherche_avancee')
 def recherche_avancee():
     """ Formulaire de recherche avancée """
-    auteurs = Agent.query.order_by(agent.agent_nom).all()
-    tuteurs = Agent.query.order_by(agent.agent_nom).all()
-    institutions = Institution.query.order_by(institution.institution_nom).all()
-    keywords = Keyword.query.order_by(keyword.keyword_label).all()
+    auteurs = Agent.query.order_by(Agent.agent_nom).all()
+    tuteurs = Agent.query.order_by(Agent.agent_nom).all()
+    institutions = Institution.query.order_by(Institution.institution_nom).all()
+    keywords = Keyword.query.order_by(Keyword.keyword_label).all()
     return render_template("pages/recherche_avancee.html", auteurs=auteurs, tuteurs=tuteurs, institutions=institutions,
                            keywords=keywords)
 
