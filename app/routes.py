@@ -166,7 +166,7 @@ def recherche_motscles():
     return render_template("pages/recherche_motscles.html", titre=titre, resultats=resultats, keyword=motclef)
 
 
-  @app.route("/formulaire", methods=["POST", "GET"])
+@app.route("/formulaire", methods=["POST", "GET"])
 @login_required
 def formulaire():
     """ Route permettant d'entrer un nouveau mémoire dans la base de données.
@@ -182,8 +182,8 @@ def formulaire():
             annee=request.form.get("année", None),
             institution=request.form.get("institution", None),
             tuteur=request.form.get("tuteur", None),
-            motclef=request.form.get("motclef", None),
-            critnum=request.form.get("Critères_numériques", None),
+            motclef=request.form.get("keyword", None),
+            critnum=request.form.get("keyword", None),
         )
         if statut is True:
             flash("Vous avez ajouté vote mémoire", "success")
