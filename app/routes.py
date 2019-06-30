@@ -3,9 +3,11 @@ from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from sqlalchemy.orm import aliased
 from werkzeug import secure_filename
+# Permet de sécuriser le nom donné au document qui est mis en ligne
 
 from .app import app, login
 from .constantes import MEMOIRE_PER_PAGE, TELECHARGEMENT
+# Appel de la variable défini dans le fichier constantes.py pour prendre en compte le dossier de téléchargement
 from .modeles.utilisateurs import Utilisateur
 from .modeles.donnees import Memoire, Keyword, Agent, Institution
 
@@ -238,6 +240,17 @@ def formulaire():
             institution=request.form.get("institution", None),
             motclef=request.form.get("motclef", None),
         )
+        """
+        Tentative d'insérer mise en ligne/telechargement avec les mémoires
+        f = request.files["file"]
+        if f:
+            name = secure_filename(f.filename)
+            f.save(TELECHARGEMENT + name)
+            lien_de_telechargement = url_for('static', filename="telechargement/" + nom)
+        else:
+            flash("Rajoutez le fichier de votre mémoire", "error")
+        """
+
         if statut is True:
             flash("Vous avez ajouté votre mémoire", "success")
             return redirect("/")
