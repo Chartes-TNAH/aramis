@@ -232,8 +232,9 @@ def formulaire():
         statut, donnees = Memoire.creer_memoire(
             titre=request.form.get("titre", None),
             auteur=request.form.get("auteur", None),
-            annee=request.form.get("année", None),
+            annee=request.form.get("annee", None),
             tuteur=request.form.get("tuteur", None),
+            institution=request.form.get("institution", None),
             motclef=request.form.get("keywords", None),
             critnum=request.form.get("keywords", None),
         )
