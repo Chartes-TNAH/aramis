@@ -2,9 +2,10 @@ from flask import render_template, request, flash, redirect
 from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from sqlalchemy.orm import aliased
+from werkzeug import secure_filename
 
 from .app import app, login
-from .constantes import MEMOIRE_PER_PAGE
+from .constantes import MEMOIRE_PER_PAGE, TELECHARGEMENT
 from .modeles.utilisateurs import Utilisateur
 from .modeles.donnees import Memoire, Keyword, Agent, Institution
 
@@ -238,7 +239,7 @@ def formulaire():
             motclef=request.form.get("motclef", None),
         )
         if statut is True:
-            flash("Vous avez ajouté vote mémoire", "success")
+            flash("Vous avez ajouté votre mémoire", "success")
             return redirect("/")
         else:
             flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")

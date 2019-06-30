@@ -1,6 +1,7 @@
 from warnings import warn
 
 MEMOIRE_PER_PAGE = 5
+TELECHARGEMENT = "./app/static/telechargement/"
 
 SECRET_KEY = "JE SUIS UN SECRET !"
 

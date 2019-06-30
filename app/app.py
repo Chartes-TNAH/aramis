@@ -9,6 +9,7 @@ from .constantes import SECRET_KEY, CONFIG
 chemin_actuel = os.path.dirname(__file__)
 templates = os.path.join(chemin_actuel, "templates")
 statics = os.path.join(chemin_actuel, "static")
+telechargement = os.path.join(chemin_actuel, "telechargement")
 # On définit ici les chemins pour faire fonctionner notre site, de façon à ce que le système sache où aller chercher
 # les informations nécessaires pour que le site apparaisse correctement.
 
