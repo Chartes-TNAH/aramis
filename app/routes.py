@@ -3,8 +3,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from sqlalchemy import or_
 from sqlalchemy.orm import aliased
 
-from .app import app
-from .app import login
+from .app import app, login
 from .constantes import MEMOIRE_PER_PAGE
 from .modeles.utilisateurs import Utilisateur
 from .modeles.donnees import Memoire, Keyword, Agent, Institution
@@ -131,10 +130,10 @@ def recherche():
             or_(
                 Memoire.memoire_titre.like("%{}%".format(motclef)),
                 Memoire.memoire_annee.like("%{}%".format(motclef)),
-                Memoire.memoire_institution.like("%{}%".format(motclef)),
                 Memoire.keyword.any(Keyword.keyword_label).like("%{}%".format(motclef)),
                 tuteur.agent_nom.like("%{}%".format(motclef)),
-                auteur.agent_nom.like("%{}%".format(motclef))
+                auteur.agent_nom.like("%{}%".format(motclef)),
+                Institution.institution_nom.like("%{}%".format(motclef))
             )
         ).paginate(page=page, per_page=MEMOIRE_PER_PAGE)
         titre = "Résultats pour la recherche '" + motclef + "'."
