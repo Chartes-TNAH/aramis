@@ -55,7 +55,7 @@ class Memoire(db.Model):
 
         # Si on a une erreur, on doit afficher ces messages.
         if len(erreur) > 0:
-            print (erreur, titre, auteur, annee, tuteur, institution, keywords)
+            print (erreur, titre, auteur, annee, tuteur, institution, motclef)
             return False, erreur
 
         memoire = Memoire(
