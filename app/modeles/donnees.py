@@ -27,6 +27,58 @@ class Memoire(db.Model):
     auteur = db.relationship("Agent", foreign_keys=[memoire_auteur])
     institution = db.relationship("Institution", foreign_keys=[memoire_institution])
 
+    @staticmethod
+    def creer_memoire(titre, auteur, annee, tuteur, institution, motclef, critnum):
+        """
+        Fonction qui permet d'ajouter un mémoire dans la base de données.
+        :param titre: Titre du mémoire
+        :param auteur: Auteur du mémoire
+        :param annee: Année de rédaction
+        :param tuteur: Tuteur de l'auteur
+        :param institution: Institution d'accueil
+        :param motclef: Mots-clefs définissant le sujet du mémoire
+        :param critnum:
+        """
+
+        erreur = []
+        if not titre:
+            erreur.append("Le titre est obligatoire")
+        if not auteur:
+            erreur.append("Il faut spécifier un auteur")
+        if not annee:
+            erreur.append("Il faut indiquer une année")
+        if not tuteur:
+            erreur.append("Il faut indiquer un tuteur")
+        if not institution:
+            erreur.append("L'institution doit être indiquée")
+        if not motclef:
+            erreur.append("Il faut attribuer un mot-clef")
+
+        # Si on a une erreur, on doit afficher ces messages.
+        if len(erreur) > 0:
+            print (erreur, titre, auteur, annee, tuteur, institution, motclef)
+            return False, erreur
+
+        memoire = Memoire(
+            memoire_titre=titre,
+            memoire_auteur=auteur,
+            memoire_annee=annee,
+            memoire_tuteur=tuteur,
+            memoire_institution=institution,
+            memoire_motclef=motclef,
+            memoire_critnum=critnum
+        )
+        print(memoire)
+
+        try:
+            db.session.add(memoire)
+            db.session.commit()
+
+            return True, memoire
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
 
 # Table recensant les différents mots-clés à attribuer aux mémoires.
 class Keyword(db.Model):
