@@ -220,7 +220,7 @@ def resultats_avancees():
 
 
 @app.route("/formulaire", methods=["POST", "GET"])
-#@login_required
+@login_required
 def formulaire():
     """ Route permettant d'entrer un nouveau mémoire dans la base de données.
     Il est nécessaire d'être identifié pour ajouter un nouveau mémoire
