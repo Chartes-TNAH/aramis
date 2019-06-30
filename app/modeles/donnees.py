@@ -28,7 +28,7 @@ class Memoire(db.Model):
     institution = db.relationship("Institution", foreign_keys=[memoire_institution])
 
     @staticmethod
-    def creer_memoire(titre, auteur, annee, tuteur, institution, motclef, critnum):
+    def creer_memoire(titre, auteur, annee, tuteur, institution, motclef):
         """
         Fonction qui permet d'ajouter un mémoire dans la base de données.
         :param titre: Titre du mémoire
