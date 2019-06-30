@@ -235,8 +235,7 @@ def formulaire():
             annee=request.form.get("annee", None),
             tuteur=request.form.get("tuteur", None),
             institution=request.form.get("institution", None),
-            motclef=request.form.get("keywords", None),
-            critnum=request.form.get("keywords", None),
+            keywords=request.form.get("keywords", None),
         )
         if statut is True:
             flash("Vous avez ajouté vote mémoire", "success")
