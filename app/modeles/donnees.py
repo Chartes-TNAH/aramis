@@ -36,7 +36,7 @@ class Memoire(db.Model):
         :param annee: Année de rédaction
         :param tuteur: Tuteur de l'auteur
         :param institution: Institution d'accueil
-        :param keywords: Mots-clefs définissant le sujet du mémoire
+        :param motscles: Mots-clefs définissant le sujet du mémoire
         """
 
         erreur = []
@@ -50,7 +50,7 @@ class Memoire(db.Model):
             erreur.append("Il faut indiquer un tuteur")
         if not institution:
             erreur.append("L'institution doit être indiquée")
-        if not keywords:
+        if not motscles:
             erreur.append("Il faut attribuer un mot-clef")
 
         # Si on a une erreur, on doit afficher ces messages.
@@ -64,7 +64,7 @@ class Memoire(db.Model):
             memoire_annee=annee,
             memoire_tuteur=tuteur,
             memoire_institution=institution,
-            memoire_keywords=keywords
+            memoire_motscles=motscles
         )
         print(memoire)
 
