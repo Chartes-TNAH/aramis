@@ -1,6 +1,8 @@
 from warnings import warn
 
 MEMOIRE_PER_PAGE = 5
+TELECHARGEMENT = "./app/static/telechargement/"
+#Création de la variable qui prendra en compte le dossier où seront stockés les mémoires à mettre en ligne ou à télécharger
 
 SECRET_KEY = "JE SUIS UN SECRET !"
 

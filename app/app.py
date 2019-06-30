@@ -6,11 +6,13 @@ import os
 
 from .constantes import SECRET_KEY, CONFIG
 
+# On définit ici les chemins pour faire fonctionner notre site, de façon à ce que le système sache où aller chercher
+# les informations nécessaires pour que le site apparaisse correctement.
 chemin_actuel = os.path.dirname(__file__)
 templates = os.path.join(chemin_actuel, "templates")
 statics = os.path.join(chemin_actuel, "static")
-# On définit ici les chemins pour faire fonctionner notre site, de façon à ce que le système sache où aller chercher
-# les informations nécessaires pour que le site apparaisse correctement.
+telechargement = os.path.join(chemin_actuel, "telechargement")
+#Cette dernière variable permet de prendre en compte le chemin à utiliser pour permettre de mettre en ligne des documents
 
 
 app = Flask(__name__, template_folder=templates, static_folder=statics)
